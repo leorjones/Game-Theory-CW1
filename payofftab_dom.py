@@ -2,7 +2,7 @@ from tabulate import tabulate
 import numpy as np
 import pandas as pd
 
-n=5 #number of games
+n=3 #number of games
 Aplay = []
 for i in range(2**n):
     x = (format(i,'b'))
@@ -48,7 +48,7 @@ for i in Aplay: #creating the table inputs
 
 
 t = tabulate(dat, headers=head, tablefmt="grid") #writes our payoff table to external table
-text_file=open("payofftable.txt","w")
+text_file=open("payofftable3.txt","w")
 text_file.write(t)
 text_file.close()
 
@@ -84,7 +84,9 @@ apayoff = pd.DataFrame(apd)
 bpayoff = pd.DataFrame(bpd)
 def dominate(payoff):
     payoff = payoff.drop_duplicates() #if we have duplicate rows the next line would delete both :(
-    rows = (payoff.values[:, None] <= payoff.values).all(axis=2).sum(axis=1) == 1 #this being one means that there is only one row greater than or equal to it (itself)
+    dom_count =(payoff.values[:, None] <= payoff.values).all(axis=2) #table where value i,j is true if row i >= row j
+    dom_count = dom_count.sum(axis=1) #sums the number of true values in each row
+    rows = dom_count == 1 #this being one means that there is only one row greater than or equal to it (itself)
     payoff = payoff[rows] #dataframe filtered by truth table formed above
     return payoff
 
