@@ -82,11 +82,11 @@ for j in range(0,2**n):
 #(ii/iii)
 apayoff = pd.DataFrame(apd)
 bpayoff = pd.DataFrame(bpd)
-def dominate(df):
-    df = df.drop_duplicates() #if we have duplicate rows the next line would delete both :(
-    rows = (df.values[:, None] <= df.values).all(axis=2).sum(axis=1) == 1 #this being one means that there is only one row greater than or equal to it (itself)
-    df = df[rows] #dataframe filtered by truth table formed above
-    return df
+def dominate(payoff):
+    payoff = payoff.drop_duplicates() #if we have duplicate rows the next line would delete both :(
+    rows = (payoff.values[:, None] <= payoff.values).all(axis=2).sum(axis=1) == 1 #this being one means that there is only one row greater than or equal to it (itself)
+    payoff = payoff[rows] #dataframe filtered by truth table formed above
+    return payoff
 
 
 a_reduced = (dominate(apayoff))
